@@ -268,3 +268,12 @@ FULL STACK/
 | `SLACK_WEBHOOK_URL`  | No       | Incoming Webhook URL from Slack     |
 | `TEAMS_WEBHOOK_URL`  | No       | Incoming Webhook from Teams         |
 | `CORS_ORIGINS`       | No       | JSON array of allowed origins       |
+
+
+
+
+
+
+#refrence images
+<img width="1901" height="924" alt="Screenshot 2026-04-02 121217" src="https://github.com/user-attachments/assets/946889a2-cd02-4721-968e-d64843a6b04b" />
+
