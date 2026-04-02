@@ -280,6 +280,10 @@ Dash board
 
 <img width="1907" height="873" alt="Screenshot 2026-04-02 121937" src="https://github.com/user-attachments/assets/a6bf6d48-54fc-49aa-b793-4b9ef4941846" />
 <img width="1901" height="905" alt="Screenshot 2026-04-02 121907" src="https://github.com/user-attachments/assets/d9ec634d-e6a1-47eb-8819-de313b1497f8" />
+<img width="1883" height="862" alt="Screenshot 2026-04-02 121922" src="https://github.com/user-attachments/assets/f625e20a-08ed-4104-898b-5dafbab810c7" />
+<img width="1016" height="842" alt="Screenshot 2026-04-02 121841" src="https://github.com/user-attachments/assets/6ec8b77c-2f0d-4fcf-b3d9-ad647bcdb1cc" />
+
+
 
 
 
