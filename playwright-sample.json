@@ -1,0 +1,59 @@
+{
+  "config": { "configFile": "playwright.config.ts", "projects": [] },
+  "suites": [
+    {
+      "title": "Landing Page",
+      "file": "tests/landing.spec.ts",
+      "suites": [
+        {
+          "title": "Navigation",
+          "tests": [
+            {
+              "title": "should load homepage",
+              "status": "passed",
+              "results": [{ "status": "passed", "duration": 843 }]
+            },
+            {
+              "title": "should navigate to login",
+              "status": "passed",
+              "results": [{ "status": "passed", "duration": 512 }]
+            },
+            {
+              "title": "should show 404 for unknown routes",
+              "status": "failed",
+              "results": [{
+                "status": "failed",
+                "duration": 3200,
+                "errors": [{
+                  "message": "Error: expect(received).toBe(expected)\nExpected: 404\nReceived: 200",
+                  "stack": "Error: expect(received).toBe(expected)\n    at tests/landing.spec.ts:28:22\n    at WorkerRunner._runTestWithBeforeHooks"
+                }]
+              }]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Checkout Flow",
+      "file": "tests/checkout.spec.ts",
+      "suites": [
+        {
+          "title": "Cart",
+          "tests": [
+            {
+              "title": "should add item to cart",
+              "status": "passed",
+              "results": [{ "status": "passed", "duration": 1200 }]
+            },
+            {
+              "title": "should complete purchase",
+              "status": "passed",
+              "results": [{ "status": "passed", "duration": 4500 }]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

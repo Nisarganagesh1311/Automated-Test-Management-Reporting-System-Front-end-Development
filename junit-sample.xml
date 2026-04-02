@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="MySuite" tests="6" failures="1" errors="0" skipped="1" time="3.142">
+  <testsuite name="com.example.OrderServiceTest" tests="3" failures="1" skipped="0" time="1.850">
+    <testcase name="testCreateOrder" classname="com.example.OrderServiceTest" time="0.512">
+    </testcase>
+    <testcase name="testCancelOrder" classname="com.example.OrderServiceTest" time="0.334">
+      <failure type="AssertionError" message="Expected status CANCELLED but was PENDING">
+java.lang.AssertionError: Expected status CANCELLED but was PENDING
+  at com.example.OrderServiceTest.testCancelOrder(OrderServiceTest.java:45)
+  at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+      </failure>
+    </testcase>
+    <testcase name="testGetOrder" classname="com.example.OrderServiceTest" time="1.004">
+    </testcase>
+  </testsuite>
+  <testsuite name="com.example.UserServiceTest" tests="3" failures="0" skipped="1" time="1.292">
+    <testcase name="testCreateUser" classname="com.example.UserServiceTest" time="0.621">
+    </testcase>
+    <testcase name="testUpdateUser" classname="com.example.UserServiceTest" time="0.671">
+    </testcase>
+    <testcase name="testDeleteUser" classname="com.example.UserServiceTest" time="0.000">
+      <skipped/>
+    </testcase>
+  </testsuite>
+</testsuites>

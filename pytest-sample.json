@@ -1,0 +1,46 @@
+{
+  "created": 1711987200.0,
+  "duration": 5.234,
+  "exitcode": 1,
+  "root": "/workspace/tests",
+  "environment": { "Python": "3.11.5", "Platform": "linux" },
+  "summary": { "passed": 4, "failed": 2, "total": 6 },
+  "tests": [
+    {
+      "nodeid": "tests/test_auth.py::test_login_success",
+      "outcome": "passed",
+      "duration": 0.312
+    },
+    {
+      "nodeid": "tests/test_auth.py::test_login_invalid_password",
+      "outcome": "passed",
+      "duration": 0.287
+    },
+    {
+      "nodeid": "tests/test_auth.py::test_logout",
+      "outcome": "passed",
+      "duration": 0.198
+    },
+    {
+      "nodeid": "tests/test_payment.py::test_process_payment",
+      "outcome": "passed",
+      "duration": 1.423
+    },
+    {
+      "nodeid": "tests/test_payment.py::test_refund_payment",
+      "outcome": "failed",
+      "duration": 0.891,
+      "call": {
+        "longrepr": "tests/test_payment.py:42: AssertionError\nAssertionError: Refund amount mismatch: expected 50.00, got 49.50\nassert 49.50 == 50.00"
+      }
+    },
+    {
+      "nodeid": "tests/test_payment.py::test_payment_webhook",
+      "outcome": "failed",
+      "duration": 2.123,
+      "call": {
+        "longrepr": "requests.exceptions.ConnectionError: HTTPConnectionPool(host='localhost', port=5001): Max retries exceeded\nConnectionRefusedError: [Errno 111] Connection refused"
+      }
+    }
+  ]
+}

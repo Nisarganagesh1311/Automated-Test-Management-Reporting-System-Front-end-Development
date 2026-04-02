@@ -1,0 +1,115 @@
+name: CI — Test Management Pipeline
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  # ── Backend Tests ────────────────────────────────────────────────────────────
+  backend-test:
+    name: Backend (FastAPI)
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: testmanager_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+
+      - name: Install dependencies
+        working-directory: backend
+        run: pip install -r requirements.txt
+
+      - name: Run tests
+        working-directory: backend
+        env:
+          DATABASE_URL: postgresql+asyncpg://postgres:password@localhost:5432/testmanager_test
+        run: pytest tests/ -v --json-report --json-report-file=pytest-results.json || true
+
+      - name: Upload Test Results to TestFlow
+        if: always() && vars.TESTFLOW_API_URL != ''
+        run: |
+          curl -X POST "${{ vars.TESTFLOW_API_URL }}/api/upload" \
+            -F "file=@backend/pytest-results.json" \
+            -F "source_type=pytest" \
+            -F "name=Backend CI #${{ github.run_number }}" \
+            -F "branch=${{ github.ref_name }}" \
+            -F "commit_hash=${{ github.sha }}" \
+            -F "project=${{ github.repository }}" \
+            -F "notify_slack=true" || echo "TestFlow upload skipped (API not configured)"
+
+  # ── Frontend Lint ─────────────────────────────────────────────────────────────
+  frontend-lint:
+    name: Frontend (Next.js)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        working-directory: frontend
+        run: npm ci
+
+      - name: Lint
+        working-directory: frontend
+        run: npm run lint || true
+
+      - name: Build
+        working-directory: frontend
+        env:
+          NEXT_PUBLIC_API_URL: http://localhost:8000
+        run: npm run build
+
+  # ── Docker Build ──────────────────────────────────────────────────────────────
+  docker-build:
+    name: Docker Build
+    runs-on: ubuntu-latest
+    needs: [backend-test, frontend-lint]
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build backend image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./backend
+          push: false
+          tags: testflow-backend:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build frontend image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./frontend
+          push: false
+          tags: testflow-frontend:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
